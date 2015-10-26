@@ -4,12 +4,12 @@ var Account = models.Account;
 
 var loginPage = function(req, res)
 {
-	res.render('login');
+	res.render('login', {csrfToken: req.csrfToken()});
 };
 
 var signupPage = function(req, res)
 {
-	res.render('signup');
+	res.render('signup', {csrfToken: req.csrfToken()});
 };
 
 var logout = function(req, res)
