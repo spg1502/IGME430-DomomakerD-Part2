@@ -25,7 +25,7 @@ var requiresLogout = function(req, res, next)
 // !req.secure works on most servers, but heroku encrypts everything internally, so for heroku apps, we instead check if the x-forwarded-proto header is 'https' (i.e. secure)
 var requiresSecure = function(req, res, next)
 {
-	if(req.headers['x-forwarded-proto'] != 'https' || !req.secure)
+	if(req.headers['x-forwarded-proto'] != 'https')
 	{
 		return res.redirect('https://' + req.host + req.url);
 	}
