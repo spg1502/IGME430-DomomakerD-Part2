@@ -1,3 +1,10 @@
+//Update anything with schema
+//Update anything with toAPI
+//When calling joinTeam, pass in username of logged in user and teamname
+//Update router to handle /joinTeam
+//Display current team on app.jade and total number of domos for team?
+//Update CSS for new team feature
+
 //import libraries
 var path = require('path');
 var express = require('express');
@@ -81,7 +88,7 @@ app.use(function (err, req, res, next)
 		return next(err);
 	}
 	return;
-})
+});
 
 router(app);
 

@@ -2,6 +2,7 @@ var _ = require('underscore');
 var models = require('../models');
 
 var Domo = models.Domo;
+var Account = models.Account;
 
 var makerPage = function(req, res)
 {
@@ -12,7 +13,23 @@ var makerPage = function(req, res)
 			console.log(err);
 			return res.status(400).json({error: "An error occurred"});
 		}
-		res.render('app', {csrfToken: req.csrfToken(), domos: docs});
+		if(req.session.account.team)
+		{
+			Account.AccountModel.findByTeam(req.session.account.team, function(err, teamDocs)
+			{
+				if(err)
+				{
+					console.log(err);
+					return res.status(400).json({error: "An error occurred"});
+				}
+				res.render('app', {csrfToken: req.csrfToken(), domos: docs, team: req.session.account.team, teamNames: teamDocs});
+			});
+		
+		}
+		else
+		{
+			res.render('app', {csrfToken: req.csrfToken(), domos: docs});
+		}
 	});
 };
 

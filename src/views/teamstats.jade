@@ -1,0 +1,23 @@
+extends ./base.jade
+block append style
+    link(rel="stylesheet", type="text/css", href="/assets/style.css")
+block body
+  nav
+    .navlink
+      a(href="/logout") Log out
+      a(href="/maker") Maker
+  section#domos
+    if !teamNames || teamNames.length == 0
+      div.team
+        h3.emptyTeam No Teams Yet
+    else
+      each val in teamNames
+        h3.teamName Team Name: #{val.team}
+        h3.userName Username: #{val.username}        
+  #domoMessage
+    img#speech(src="/assets/img/speech.png", alt="speech box")
+    h3
+      span#errorMessage
+    img#domo(src="assets/img/domo.png", alt="domo")
+block scripts
+        script(src="/assets/maker.js")

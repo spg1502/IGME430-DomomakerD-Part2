@@ -15,6 +15,14 @@ var AccountSchema = new mongoose.Schema({
         match: /^[A-Za-z0-9_\-\.]{1,16}$/
     },
 	
+	team: {
+		type: String,
+		required: false,
+		trim: true,
+		unique: false,
+        match: /^[A-Za-z0-9_\-\.]{1,16}$/
+	},
+	
 	salt: {
 		type: Buffer,
 		required: true
@@ -36,7 +44,8 @@ AccountSchema.methods.toAPI = function() {
     //_id is built into your mongo document and is guaranteed to be unique
     return {
         username: this.username,
-        _id: this._id 
+        _id: this._id,
+		team: this.team
     };
 };
 
@@ -58,6 +67,20 @@ AccountSchema.statics.findByUsername = function(name, callback) {
     };
 
     return AccountModel.findOne(search, callback);
+};
+
+AccountSchema.statics.findByTeam = function(name, callback)
+{
+	var search = {
+		team: name
+	};
+	
+	return AccountModel.find(search).select("username").exec(callback);
+};
+
+AccountSchema.statics.findAllTeamMembers = function(callback)
+{
+	return AccountModel.find({team: {$exists: true}}).select("username team").exec(callback);
 };
 
 AccountSchema.statics.generateHash = function(password, callback) {

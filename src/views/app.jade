@@ -7,6 +7,12 @@ block body
       img#logo(src="/assets/img/face.png", alt="face logo")
     .navlink
       a(href="/logout") Log out
+      a(href="/teamstats") Team Stats
+    form#teamForm(class="teamForm", name="teamForm", action="/joinTeam", method="POST")
+      label(for="teamname") Team:
+      input#teamName(type="text", name="teamname", placeholder="Team Name")
+      input(type="hidden", name="_csrf", value="#{csrfToken}")
+      a#joinTeamSubmit(class="joinTeamSubmit", href="#") Join Team
   section#makeDomo
     form#domoForm(class="domoForm", name="domoForm", action="/maker", method="POST")
       label(for="name") Name: 
@@ -16,6 +22,12 @@ block body
       input(type="hidden", name="_csrf", value="#{csrfToken}")
       a#makeDomoSubmit(class="makeDomoSubmit", href="#") Make Domo
   section#domos
+    if !team
+      div.team
+        h3.emptyTeam No Team Yet
+    else
+      div.team
+        h3.teamName Team: #{team}
     if !domos || domos.length == 0
       div.domo
         h3.emptyDomo No Domos yet
@@ -25,6 +37,14 @@ block body
           img(class="domoFace", src="/assets/img/domoface.jpeg", alt="domo face")
           h3.domoName Name: #{val.name}
           h3.domoAge Age: #{val.age}
+    if !teamNames
+      div.teamNames
+        h3.emptyTeamNames No Team Names Yet
+    else
+      h3.teamMembers Team Members:
+      each val in teamNames
+        div.teamNames
+          h3.teamName Name: #{val.username}
   #domoMessage
     img#speech(src="/assets/img/speech.png", alt="speech box")
     h3

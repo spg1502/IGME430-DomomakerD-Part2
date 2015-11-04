@@ -16,15 +16,15 @@ $(document).ready(function() {
             dataType: "json",
             success: function(result, status, xhr) {
                 $("#domoMessage").animate({width:'hide'},350);
-
+				
                 window.location = result.redirect;
             },
             error: function(xhr, status, error) {
                 var messageObj = JSON.parse(xhr.responseText);
-            
+				
                 handleError(messageObj.error);
             }
-        });        
+        });
     }
     
     $("#makeDomoSubmit").on("click", function(e) {
@@ -41,5 +41,21 @@ $(document).ready(function() {
         
         return false;
     });
+	
+	$("#joinTeamSubmit").on("click", function(e)
+	{
+		e.preventDefault();
+    
+        $("#domoMessage").animate({width:'hide'},350);
+		
+		if($("#teamName").val() == '')
+		{
+			handleError("RAWR! Team name required");
+			return false;
+		}
+		sendAjax($("#teamForm").attr("action"), $("#teamForm").serialize());
+		
+		return false;
+	});
     
 });
